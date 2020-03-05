@@ -1,0 +1,343 @@
+{
+  "intents": [
+    {
+      "intent": "entrega_cidade",
+      "examples": [
+        {
+          "text": "Sou do Rio de Janeiro"
+        },
+        {
+          "text": "Sou do RJ"
+        },
+        {
+          "text": "Sou de SP"
+        },
+        {
+          "text": "Sou de São Paulo"
+        },
+        {
+          "text": "Sou da cidade da garoa"
+        },
+        {
+          "text": "Sou da cidade maravilhosa"
+        },
+        {
+          "text": "Sou de BA"
+        },
+        {
+          "text": "Sou de Salvador"
+        }
+      ],
+      "description": ""
+    },
+    {
+      "intent": "reserva_produto",
+      "examples": [
+        {
+          "text": "Quando eu adiciono um produto ao carrinho, ele fica reservado ?"
+        },
+        {
+          "text": "Se eu coloco um produto no carrinho ele fica reservado ?"
+        },
+        {
+          "text": "Tenho uma reserva de produto quando coloco o produto no carrinho ?"
+        },
+        {
+          "text": "Poderia me dizer se eu adicionar um produto no carrinho ele fica reservado?"
+        }
+      ],
+      "description": "Pergunta sobre reserva do produto"
+    },
+    {
+      "intent": "entrega_produto",
+      "examples": [
+        {
+          "text": "Pode me dizer em quantos dias meu produto chegará?"
+        },
+        {
+          "text": "Me diga qual o prazo máximo para meu produto chegar?"
+        },
+        {
+          "text": "Em quantos dias meu produto chegará?"
+        },
+        {
+          "text": "Poderia me falar em quantos dias meu produto chegará?"
+        },
+        {
+          "text": "Quero saber em quantos dias meu produto irá chegar"
+        },
+        {
+          "text": "Poderia me informar em quantos dias meu produto chega?"
+        },
+        {
+          "text": "Qual o prazo máximo para meu produto ser entregue ?"
+        },
+        {
+          "text": "Poderia me dizer em quantos dias meu produto vai ser entregue ?"
+        },
+        {
+          "text": "Qual o prazo para meu produto ser entregue?"
+        },
+        {
+          "text": "Quantos dias demora para meu produto ser entregue?"
+        }
+      ],
+      "description": ""
+    }
+  ],
+  "entities": [
+    {
+      "entity": "cidade",
+      "values": [
+        {
+          "type": "synonyms",
+          "value": "São Paulo",
+          "synonyms": [
+            "Sampa",
+            "Sp",
+            "Cidade da garoa"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "Salvador",
+          "synonyms": [
+            "BA",
+            "Bahia"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "Rio de Janeiro",
+          "synonyms": [
+            "RJ",
+            "Cidade maravilhosa",
+            "Rio",
+            "021"
+          ]
+        }
+      ],
+      "fuzzy_match": true
+    }
+  ],
+  "metadata": {
+    "api_version": {
+      "major_version": "v2",
+      "minor_version": "2018-11-08"
+    }
+  },
+  "dialog_nodes": [
+    {
+      "type": "standard",
+      "title": "RJ",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Para o Rio de Janeiro são 15 dias úteis "
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_5_1582845849683",
+      "conditions": "@cidade:(Rio de Janeiro)",
+      "dialog_node": "node_4_1583448908728",
+      "previous_sibling": "node_10_1583448320491"
+    },
+    {
+      "type": "standard",
+      "title": "BA",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Para Salvador são 21 dias úteis"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_5_1582845849683",
+      "conditions": "@cidade:(Salvador)",
+      "dialog_node": "node_2_1583448982146",
+      "previous_sibling": "node_4_1583448908728"
+    },
+    {
+      "type": "standard",
+      "title": "SP",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Para São Paulo são 10 dias úteis"
+              },
+              {
+                "text": ""
+              },
+              {
+                "text": ""
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_5_1582845849683",
+      "conditions": "@cidade:(São Paulo)",
+      "dialog_node": "node_10_1583448320491"
+    },
+    {
+      "type": "standard",
+      "title": "São Paulo",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Isso ai são 10 dias úteis"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "conditions": "#entrega_produto && @cidade:(São Paulo)",
+      "dialog_node": "node_9_1583449853729",
+      "previous_sibling": "node_3_1583450282693"
+    },
+    {
+      "type": "standard",
+      "title": "Rio de Janeiro",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Isso ai são 15 dias úteis"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "conditions": "#entrega_produto && @cidade:(Rio de Janeiro)",
+      "dialog_node": "node_3_1583450282693",
+      "previous_sibling": "node_7_1583450342655"
+    },
+    {
+      "type": "standard",
+      "title": "Em outros casos",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Eu não entendi. Você pode tentar reformular a frase."
+              },
+              {
+                "text": "Você pode reformular sua afirmação? Eu não estou entendendo."
+              },
+              {
+                "text": "Eu não entendi o sentido."
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "conditions": "anything_else",
+      "dialog_node": "Em outros casos",
+      "previous_sibling": "node_5_1582845849683",
+      "disambiguation_opt_out": true
+    },
+    {
+      "type": "standard",
+      "title": "Entrega_produto",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Varia de cidade para cidade! Qual cidade seria?\n"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "conditions": "#entrega_produto",
+      "dialog_node": "node_5_1582845849683",
+      "previous_sibling": "node_9_1583449853729"
+    },
+    {
+      "type": "standard",
+      "title": "Salvador",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Isso ai são 20 dias úteis"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "conditions": "#entrega_produto && @cidade:Salvador",
+      "dialog_node": "node_7_1583450342655",
+      "previous_sibling": "Bem-vindo"
+    },
+    {
+      "type": "standard",
+      "title": "Bem-vindo",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Olá. Como posso te ajudar?"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "conditions": "welcome",
+      "dialog_node": "Bem-vindo"
+    }
+  ],
+  "counterexamples": [],
+  "system_settings": {
+    "disambiguation": {
+      "prompt": "Você quis dizer:",
+      "enabled": true,
+      "randomize": true,
+      "max_suggestions": 5,
+      "suggestion_text_policy": "title",
+      "none_of_the_above_prompt": "Nenhuma das anteriores"
+    },
+    "human_agent_assist": {
+      "prompt": "Você quis dizer:"
+    }
+  },
+  "learning_opt_out": false,
+  "name": "Ajuda",
+  "language": "pt-br",
+  "description": "Essa skill ajuda o cliente a comprar o melhor aparelho para ele"
+}
